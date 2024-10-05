@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/DiscretStructures3.iml" filepath="$PROJECT_DIR$/.idea/DiscretStructures3.iml" />
       <module fileurl="file://$PROJECT_DIR$/FirstTaskk/FirstTaskk.iml" filepath="$PROJECT_DIR$/FirstTaskk/FirstTaskk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SecondTask/SecondTask.iml" filepath="$PROJECT_DIR$/SecondTask/SecondTask.iml" />
     </modules>
   </component>
 </project>
