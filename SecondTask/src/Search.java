@@ -4,6 +4,7 @@ public class Search {
     private final int[] array;
     int sequentialComparisonCount;
     int binaryComparisonCount;
+    int compareInSortCount;
 
     public Search(int capacity) {
         array = new int[capacity];
@@ -49,16 +50,19 @@ public class Search {
         return binaryComparisonCount;
     }
 
-    public void sort() {
+    public int sort() {
         for (int i = array.length - 1; i > 0; i--) {
             for (int j = 0; j < i; j++) {
                 if (array[j] > array[j + 1]) {
+                    compareInSortCount++;
                     int temp = array[j + 1];
                     array[j + 1] = array[j];
                     array[j] = temp;
                 }
             }
         }
+
+        return compareInSortCount;
     }
 
     public int getRandomElement() {

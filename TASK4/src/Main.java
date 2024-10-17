@@ -1,7 +1,7 @@
 import java.util.Arrays;
 
 public static void main(String[] args) {
-    int x = 12;
+    int x = 40;
     int sum = 0;
     int result = 1;
 
@@ -18,31 +18,37 @@ public static void main(String[] args) {
 
     System.out.println(sqrtFrom1ToX(x, sum, 1));
 
-    long startTime1 = System.nanoTime();
-    System.out.println(fibonacciRecursive(x));
-    long endTime1 = System.nanoTime();
-    long result1 = endTime1 - startTime1;
-    System.out.println("Без оптимизации: " + result1);
+    for(int i = 1; i <= 30; i++){
+        System.out.printf("%1d. ", i);
 
-    fibonacciCashMemory fibonacciCash = new fibonacciCashMemory();
+        long startTime1 = System.nanoTime();
+        fibonacciRecursive(i);
+        long endTime1 = System.nanoTime();
+        long result1 = endTime1 - startTime1;
+        System.out.printf("%7s%7d", "Без оптимизации: " , result1);
 
-    long startTime2 = System.nanoTime();
-    System.out.println(fibonacciCash.fibonacciCash(12));
-    long endTime2 = System.nanoTime();
-    long result2 = endTime2 - startTime2;
-    System.out.println("С кэшом: " + result2);
+        FibonacciCashMemory fibonacciCash = new FibonacciCashMemory(i);
+        long startTime2 = System.nanoTime();
+        fibonacciCash.fibonacciCashMemory(i);
+        long endTime2 = System.nanoTime();
+        long result2 = endTime2 - startTime2;
+        System.out.printf("%7s%7d", " | С кэшом: ", result2);
 
-    long startTime3 = System.nanoTime();
-    fibonacciTempArray(x);
-    long endTime3 = System.nanoTime();
-    long result3 = endTime3 - startTime3;
-    System.out.println("С Временным массивом: " + result3);
+        long startTime3 = System.nanoTime();
+        fibonacciTempArray(i);
+        long endTime3 = System.nanoTime();
+        long result3 = endTime3 - startTime3;
+        System.out.printf("%7s%7d", " | С Временным массивом: ", result3);
 
-    long startTime4 = System.nanoTime();
-    fibonacciNaLety(x);
-    long endTime4 = System.nanoTime();
-    long result4 = endTime4 - startTime4;
-    System.out.println("С методом на лету: " + result4);
+        long startTime4 = System.nanoTime();
+        fibonacciNaLety(i);
+        long endTime4 = System.nanoTime();
+        long result4 = endTime4 - startTime4;
+        System.out.printf("%7s%7d"," | С методом на лету: ", result4);
+
+
+        System.out.println();
+    }
 }
 
 public static int sum(int x, int sum) {
@@ -112,26 +118,27 @@ public static int fibonacciRecursive(int x) {
     return x < 2 ? x : fibonacciRecursive(x - 1) + fibonacciRecursive(x - 2);
 }
 
-public static class fibonacciCashMemory {
-    int[] cache = new int[10000];
+public static class FibonacciCashMemory {
+    private static long[] cache;
 
-    public fibonacciCashMemory() {
-        cache[1] = 1;
+    public FibonacciCashMemory(int n) {
+        cache = new long[n + 1];
+        for (int i = 0; i <= n; i++) {
+            cache[i] = -1;
+        }
     }
 
-    public int fibonacciCash(int n) {
-        if (cache[n] != 0) {
+    public static long fibonacciCashMemory(int n) {
+        if (n <= 1) {
+            return n;
+        }
+
+        if (cache[n] != -1) {
             return cache[n];
         }
 
-        if (n <= 0) {
-            return 0;
-        }
-
-        int result = fibonacciCash(n - 1) + fibonacciCash(n - 2);
-        cache[n] = result;
-
-        return result;
+        cache[n] = fibonacciCashMemory(n - 1) + fibonacciCashMemory(n - 2);
+        return cache[n];
     }
 }
 
@@ -143,8 +150,6 @@ public static void fibonacciTempArray(int n) {
     for (int i = 2; i <= n; ++i) {
         f[i] = f[i - 1] + f[i - 2];
     }
-
-    System.out.println(f[n]);
 }
 
 public static void fibonacciNaLety(int x) {
@@ -156,6 +161,4 @@ public static void fibonacciNaLety(int x) {
         f0 = f1;
         f1 = f2;
     }
-
-    System.out.println(f1);
 }
