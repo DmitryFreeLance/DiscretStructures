@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/BotScool/BotScool.iml" filepath="$PROJECT_DIR$/BotScool/BotScool.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/DiscretStructures3.iml" filepath="$PROJECT_DIR$/.idea/DiscretStructures3.iml" />
       <module fileurl="file://$PROJECT_DIR$/FirstTaskk/FirstTaskk.iml" filepath="$PROJECT_DIR$/FirstTaskk/FirstTaskk.iml" />
       <module fileurl="file://$PROJECT_DIR$/SecondTask/SecondTask.iml" filepath="$PROJECT_DIR$/SecondTask/SecondTask.iml" />
