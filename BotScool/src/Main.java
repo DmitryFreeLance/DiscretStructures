@@ -279,18 +279,18 @@ public class Main {
                 SendMessage sendMessage = new SendMessage(userId, question.getText());
                 sendMessage.parseMode(ParseMode.Markdown);
 
-                // Only set the keyboard when sending a question
+                // Создаем клавиатуру с ответами только для вопросов
                 String[][] keyButtons = new String[question.getAnswers().size()][1];
                 for (int i = 0; i < question.getAnswers().size(); i++) {
                     keyButtons[i][0] = question.getAnswers().get(i).getText();
                 }
 
                 Keyboard replyKeyboardMarkup = new ReplyKeyboardMarkup(keyButtons)
-                        .oneTimeKeyboard(true) // Optional: Makes the keyboard disappear after selection
+                        .oneTimeKeyboard(true) // Клавиатура исчезает после выбора
                         .resizeKeyboard(true)
                         .selective(true);
 
-                sendMessage.replyMarkup(replyKeyboardMarkup);
+                sendMessage.replyMarkup(replyKeyboardMarkup); // Добавляем клавиатуру только для вопросов
                 telegramBot.execute(sendMessage);
                 return true;
             }
@@ -316,21 +316,23 @@ public class Main {
             resultMessageText = Text.RESULT_MESSAGE_ADVANCED;
         }
 
-        // Формируем итоговое сообщение
-        String finalMessage = Text.RESULT_MESSAGE1 + user.getEnglishLevelPoints() + " / 19" + "\n" + resultMessageText + "\n" + Text.RESULT_MESSAGE3;
-
-        // Создаем кнопки
+        // Создаем инлайн-клавиатуру для повторного теста или возврата к главному меню
         InlineKeyboardMarkup inlineKeyboard = new InlineKeyboardMarkup();
         InlineKeyboardButton retryButton = new InlineKeyboardButton("Пройти тест еще раз").callbackData("start_test");
         InlineKeyboardButton backButton = new InlineKeyboardButton("Вернуться в начало").callbackData("back_to_main");
-
-        // Добавляем кнопки на клавиатуру
         inlineKeyboard.addRow(retryButton);
         inlineKeyboard.addRow(backButton);
 
-        // Отправляем сообщение с результатом и кнопками
-        SendMessage sendMessage = new SendMessage(userId, finalMessage);
-        sendMessage.replyMarkup(inlineKeyboard);
+        // Создаем объект для удаления обычной клавиатуры
+        ReplyKeyboardRemove removeKeyboard = new ReplyKeyboardRemove(true); // true для удаления у всех пользователей
+
+        // Отправляем сообщение с удалением обычной клавиатуры и добавлением инлайн-кнопок
+        String finalMessage1 = Text.RESULT_MESSAGE1 + user.getEnglishLevelPoints() + " / 19";
+        SendMessage sendMessage1 = new SendMessage(userId, finalMessage1);
+        sendMessage1.replyMarkup(removeKeyboard);
+        telegramBot.execute(sendMessage1);
+        SendMessage sendMessage = new SendMessage(userId, Text.RESULT_MESSAGE3);
+        sendMessage.replyMarkup(inlineKeyboard); // Добавляем инлайн-клавиатуру
         telegramBot.execute(sendMessage);
 
         user.setNewUser(false);
