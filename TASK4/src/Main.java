@@ -1,5 +1,3 @@
-import java.util.Arrays;
-
 public static void main(String[] args) {
     int x = 40;
     int sum = 0;
@@ -30,7 +28,7 @@ public static void main(String[] args) {
 
     System.out.println();
 
-    for (int i = 50; i <= 1000; i+=50) {
+    for (int i = 100; i <= 10000; i+=100) {
         System.out.printf("%5d |", i);
 
      /*   long startTime1 = System.nanoTime();
